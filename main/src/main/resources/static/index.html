@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Camp Slot Checker</title>
+</head>
+<body>
+
+<h2>Manual Camp Slot Check</h2>
+<button onclick="checkSlots()">Check Slots Now</button>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Remaining Slots</th>
+            <th>Checked At</th>
+        </tr>
+    </thead>
+    <tbody id="results"></tbody>
+</table>
+
+<script>
+async function checkSlots() {
+    const response = await fetch('/api/check-slots');
+    const slots = await response.json();
+
+    const table = document.getElementById('results');
+    table.innerHTML = '';  // Clear old data
+
+    slots.forEach(slot => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = slot.date;
+        row.insertCell(1).innerText = slot.remainingSlots;
+        row.insertCell(2).innerText = slot.checkedAt;
+    });
+}
+</script>
+
+</body>
+</html>
